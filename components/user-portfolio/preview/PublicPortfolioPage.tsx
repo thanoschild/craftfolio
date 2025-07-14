@@ -86,8 +86,6 @@ export default function PublicPortfolioPage({ id }: PublicPortfolioPageProps) {
     );
   }
 
-  console.log("portfolio data: ", formData)
-
   return (
     <div className="min-h-screen bg-light-bg dark:bg-dark-bg transition-colors duration-300">
       <div className="max-w-5xl mx-auto px-6">
