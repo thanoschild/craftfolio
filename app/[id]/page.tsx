@@ -21,7 +21,8 @@ export async function generateMetadata({
 
     if (!response.ok) throw new Error("Failed to fetch");
 
-    const data = await response.json();
+    const res = await response.json();
+    const data = res.resumeData;
 
     return {
       title: `${data.name || id} | Craftfolio`,
