@@ -8,12 +8,17 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.craftfolio.space"),
   title: "Craftfolio - Build portfolios in minutes.",
-  description:
-    "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
+  description: "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
+  icons: {
+    icon: [{ url: "/logo.png", type: "image/png" }],
+    apple: [{ url: "/logo.png", type: "image/png" }],
+  },
+  verification: {
+    google: "9b2iZT8DLzwmyJ4ja4Lm7HC_8VSr1Pxiqs7PpqicX5U",
+  },
   openGraph: {
     title: "Craftfolio - Build portfolios in minutes.",
-    description:
-      "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
+    description: "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
     images: [
       {
         url: "/og-image.png",
@@ -26,8 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Craftfolio - Build portfolios in minutes.",
-    description:
-      "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
+    description: "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
     images: ["/og-image.png"],
   },
 };
