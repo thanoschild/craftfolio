@@ -52,11 +52,7 @@ export default function Header() {
 
             <SignedOut>
               <Link href="/upload">
-                <Button
-                  buttonText="Sign in"
-                  size="sm"
-                  className="whitespace-nowrap"
-                />
+                <Button variant="primary">Sign in</Button>
               </Link>
             </SignedOut>
           </div>
@@ -105,15 +101,9 @@ export default function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block"
                 >
-                  <Button
-                    buttonText="Sign in"
-                    size="sm"
-                    className="w-full justify-center"
-                  />
+                  <Button variant="primary" className="w-full justify-center">Sign in</Button>
                 </Link>
               </SignedOut>
-
-              
             </div>
           </div>
         )}
