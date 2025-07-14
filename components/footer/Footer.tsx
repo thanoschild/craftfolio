@@ -77,11 +77,11 @@ export default function Footer() {
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="icon-style"
             >
-              {/* Only render theme-specific icon after hydration */}
               {!mounted ? (
-                // Fallback icon during SSR/hydration
                 <div className="w-4 h-4" />
-              ) : theme === "dark" ? (
+              ) : theme === "dark" ||
+                (theme === "system" &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches) ? (
                 <FiSun className="w-4 h-4 text-light-text dark:text-dark-text" />
               ) : (
                 <FiMoon className="w-4 h-4 text-light-text dark:text-dark-text" />

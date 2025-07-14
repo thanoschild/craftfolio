@@ -56,7 +56,7 @@ export default function Header({ formData }: HeaderProps) {
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-light-bg-sub dark:bg-dark-bg-sub rounded-full border border-light-border-sub dark:border-dark-border-sub">
                   <FaBriefcase className="w-4 h-4 text-light-text-sub dark:text-dark-text-sub" />
                   <span
-                    className="text-sm sm:text-base font-medium text-light-text dark:text-dark-text max-w-[200px] truncate"
+                    className="text-sm sm:text-base font-medium text-light-text dark:text-dark-text truncate"
                     title={formData.current_role}
                   >
                     {formData.current_role}
