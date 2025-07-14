@@ -6,8 +6,30 @@ import MainLayout from "@/components/layout/MainLayout";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Craftfolio",
-  description: "Create beautiful portfolios",
+  metadataBase: new URL("https://www.craftfolio.space"),
+  title: "Craftfolio - Build portfolios in minutes.",
+  description:
+    "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
+  openGraph: {
+    title: "Craftfolio - Build portfolios in minutes.",
+    description:
+      "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Sumeet Haldar Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Craftfolio - Build portfolios in minutes.",
+    description:
+      "The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -18,6 +40,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <link rel="icon" href="/logo.ico" sizes="any" />
+        </head>
         <body className="antialiased bg-light-bg dark:bg-dark-bg min-h-screen">
           <ThemeProvider
             attribute="class"
