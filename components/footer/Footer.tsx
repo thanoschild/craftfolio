@@ -22,14 +22,22 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Left side - Branding */}
           <div className="flex flex-col items-center md:items-start gap-2">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="text-lg font-bold text-light-text dark:text-dark-text hover:text-light-text-sub dark:hover:text-dark-text-sub transition-colors"
             >
               Craftfolio
             </Link>
             <p className="text-sm text-light-text-sub dark:text-dark-text-sub">
-              Powered by Next.js
+              Powered by{" "}
+              <Link
+                href="https://ai.google/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-light-text dark:text-dark-text hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                Gemini
+              </Link>
             </p>
           </div>
 

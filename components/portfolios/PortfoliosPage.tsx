@@ -95,15 +95,13 @@ export default function PortfoliosPage() {
 
   if (loading && portfolios.length === 0) {
     return (
-      <div className="min-h-screen bg-light-bg dark:bg-dark-bg flex items-center justify-center">
-        <Loader message="Loading portfolios..." size="lg" />
-      </div>
+       <Loader message="Loading portfolios." size="lg" />
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-light-bg dark:bg-dark-bg">
+      <div className="flex flex-1 flex-col items-center justify-center bg-light-bg dark:bg-dark-bg">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <ErrorMessage message={error} onRetry={handleRetry} />
         </div>

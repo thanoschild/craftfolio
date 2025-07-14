@@ -106,7 +106,7 @@ export default function Header({ formData }: HeaderProps) {
 
             {/* GitHub */}
             {formData.github_url && (
-              <a
+              <Link
                 href={formData.github_url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -114,12 +114,12 @@ export default function Header({ formData }: HeaderProps) {
               >
                 <FaGithub className="w-5 h-5" />
                 <span className="text-lg font-medium">Github</span>
-              </a>
+              </Link>
             )}
 
             {/* Twitter */}
             {formData.twitter_url && (
-              <a
+              <Link
                 href={formData.twitter_url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -127,7 +127,7 @@ export default function Header({ formData }: HeaderProps) {
               >
                 <FaXTwitter className="w-5 h-5" />
                 <span className="text-lg font-medium">Twitter</span>
-              </a>
+              </Link>
             )}
           </div>
         </div>

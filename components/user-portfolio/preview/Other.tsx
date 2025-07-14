@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { PiArrowUpRightBold } from "react-icons/pi";
 
@@ -48,7 +49,7 @@ export default function Other({ others }: OtherProps) {
           // If link exists, wrap in link
           if (item.link) {
             return (
-              <a
+              <Link
                 key={index}
                 href={item.link}
                 target="_blank"
@@ -56,7 +57,7 @@ export default function Other({ others }: OtherProps) {
                 className="block"
               >
                 {OtherCard}
-              </a>
+              </Link>
             );
           }
 

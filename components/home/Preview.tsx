@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { LuTrendingUp, LuUsers } from "react-icons/lu";
 
@@ -53,7 +54,7 @@ export default function Preview() {
               Skills
             </div>
             <div className="flex flex-wrap gap-2">
-              {["React", "Node.js", "TypeScript", "AWS"].map((skill) => (
+              {["React", "Node.js", "AWS", "Java", "Python"].map((skill) => (
                 <span
                   key={skill}
                   className="px-2 py-1 bg-light-bg-sub dark:bg-dark-bg text-xs font-medium text-light-text dark:text-dark-text rounded-md border border-light-border-sub dark:border-dark-border-sub"
@@ -65,12 +66,20 @@ export default function Preview() {
           </div>
 
           <div className="flex gap-3 pt-2">
-            <button className="px-3 py-1.5 bg-light-text dark:bg-dark-text text-light-bg dark:text-dark-bg text-xs font-medium rounded-lg hover:bg-light-text-sub dark:hover:bg-dark-text-sub transition-colors">
+            <Link
+              href="mailto:sumeethaldar731@gmail.com"
+              className="px-3 py-1.5 bg-light-text dark:bg-dark-text text-light-bg dark:text-dark-bg text-xs font-medium rounded-lg hover:bg-light-text-sub dark:hover:bg-dark-text-sub transition-colors"
+            >
               Contact
-            </button>
-            <button className="px-3 py-1.5 border border-light-border-sub dark:border-dark-border-sub text-light-text dark:text-dark-text text-xs font-medium rounded-lg hover:border-light-text dark:hover:border-dark-text transition-colors">
+            </Link>
+            <Link
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 border border-light-border-sub dark:border-dark-border-sub text-light-text dark:text-dark-text text-xs font-medium rounded-lg hover:border-light-text dark:hover:border-dark-text transition-colors"
+            >
               Resume
-            </button>
+            </Link>
           </div>
         </div>
       </div>

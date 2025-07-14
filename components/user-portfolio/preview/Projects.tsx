@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { PiArrowUpRightBold } from "react-icons/pi";
 
@@ -48,7 +49,7 @@ export default function Projects({ projects }: ProjectsProps) {
           // If project URL exists, wrap in link
           if (project.project_url) {
             return (
-              <a
+              <Link
                 key={index}
                 href={project.project_url}
                 target="_blank"
@@ -56,7 +57,7 @@ export default function Projects({ projects }: ProjectsProps) {
                 className="block"
               >
                 {ProjectCard}
-              </a>
+              </Link>
             );
           }
 

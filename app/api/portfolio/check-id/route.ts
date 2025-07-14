@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { docClient } from "@/lib/dynamo";
+import { isRestrictedKeyword } from "@/lib/restrictedKeywords";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -8,6 +9,13 @@ export async function POST(req: NextRequest) {
 
   if (!id) {
     return new NextResponse("Missing id", { status: 400 });
+  }
+
+  if (isRestrictedKeyword(id)) {
+    return NextResponse.json({ 
+      available: false, 
+      reason: "This ID contains restricted keywords and cannot be used" 
+    });
   }
 
   const tableName = process.env.AWS_DYNAMODB_TABLE!;
