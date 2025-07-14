@@ -1,0 +1,1 @@
+export const PRIVATE_ROUTES = ['preview', 'upload', 'user-portfolio'];

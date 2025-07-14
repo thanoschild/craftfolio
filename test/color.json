@@ -1,0 +1,13 @@
+{
+    "theme-primary": "#16a34a",
+    "theme-dark-bg": "#1e1e1e",
+    "theme-dark-text": "#d4d4d4",
+    "theme-dark-sub": "#4d4d4d",
+    "theme-dark-sub-alt": "#191919",
+    "theme-dark-error": "#f44747",
+    "theme-light-bg": "#eeeeee",
+    "theme-light-text": "#444444",
+    "theme-light-sub": "#b2b2b2",
+    "theme-light-sub-alt": "#dddddd",
+    "theme-light-error": "#d70000"
+}

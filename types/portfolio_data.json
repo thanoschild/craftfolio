@@ -1,0 +1,34 @@
+{
+    "name": "",
+    "address": "",
+    "email": "",
+    "moblie_no": "",
+    "linkedin_url": "",
+    "github_url": "",
+    "website_url": "",
+    "about": "",
+    "experience": [
+        {
+            "company_name": "",
+            "role": "",
+            "period": "",
+            "place": "",
+            "description": ""
+        }
+    ],
+    "projects": [
+        {
+            "project_name": "",
+            "project_url": "",
+            "description": ""
+        }
+    ],
+    "education": [
+        {
+            "institution_name": "",
+            "course": "",
+            "period": ""
+        }
+    ],
+    "skills": ["", ""]
+}
