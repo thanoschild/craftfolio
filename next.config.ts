@@ -5,7 +5,14 @@ const nextConfig: NextConfig = {
   experimental: {},
   serverExternalPackages: ["pdf-parse"],
   images: {
-    domains: ['img.clerk.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
 };
 

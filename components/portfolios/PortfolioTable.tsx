@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { LuCalendar } from 'react-icons/lu';
+import { LuCalendar, LuCopy, LuCheck } from 'react-icons/lu';
 import { Portfolio } from './PortfoliosPage';
+import { showToast } from '../ui/Toast';
 
 type Props = {
   portfolios: Portfolio[];
@@ -63,6 +64,21 @@ function PortfolioTableRow({
   formatDate: (timestamp: number) => string;
   isLast: boolean;
 }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyPortfolioLink = async () => {
+    const portfolioUrl = `${window.location.origin}/${portfolio.id}`;
+    
+    try {
+      await navigator.clipboard.writeText(portfolioUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); 
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+      showToast.error("Failed to copy link");
+    }
+  };
+
   return (
     <tr className={`hover:bg-light-bg dark:hover:bg-dark-bg transition-colors ${!isLast ? 'border-b border-light-border-sub dark:border-dark-border-sub' : ''}`}>
       <td className="py-4 px-6">
@@ -88,13 +104,34 @@ function PortfolioTableRow({
           <span>{formatDate(portfolio.timestamp)}</span>
         </div>
       </td>
-      <td className="py-4 px-6 text-center">
-        <Link
-          href={`/${portfolio.id}`}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-light-text dark:bg-dark-text text-light-bg dark:text-dark-bg rounded-lg hover:bg-light-text-sub dark:hover:bg-dark-text-sub transition-colors font-medium text-sm"
-        >
-          View
-        </Link>
+      <td className="py-4 px-6">
+        <div className="flex items-center justify-center gap-2">
+          <Link
+            href={`/${portfolio.id}`}
+            className="inline-flex items-center gap-2 px-4 py-1 bg-light-text dark:bg-dark-text text-light-bg dark:text-dark-bg rounded-lg hover:bg-light-text-sub dark:hover:bg-dark-text-sub transition-colors font-medium text-sm"
+          >
+            View
+          </Link>
+          <button
+            onClick={copyPortfolioLink}
+            className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg transition-all font-medium text-sm ${
+              copied
+                ? 'dark:bg-green-900/20 text-green-600 dark:text-green-400'
+                : 'text-light-text-sub dark:text-dark-text-sub hover:border-light-text dark:hover:border-dark-text hover:text-light-text dark:hover:text-dark-text'
+            }`}
+            title="Copy portfolio link"
+          >
+            {copied ? (
+              <>
+                <LuCheck className="w-4 h-4" />
+              </>
+            ) : (
+              <>
+                <LuCopy className="w-4 h-4" />
+              </>
+            )}
+          </button>
+        </div>
       </td>
     </tr>
   );

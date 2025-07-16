@@ -31,7 +31,7 @@ export async function generateMetadata({
       openGraph: {
         title: data.name || id,
         description: data.about || "Professional developer portfolio",
-        images: data.image_url ? [data.image_url] : undefined,
+        images: data.image_url ? [data.image_url] : ["/og-image.png"],
       },
     };
   } catch {
