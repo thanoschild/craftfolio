@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Craftfolio 
+The easiest way to create professional developer portfolios. Build, customize, and share your portfolio in minutes.
 
-## Getting Started
+## ✨ Features
+🚀 Quick Setup: Create a professional portfolio in minutes \
+📱 Responsive Design: Looks great on all devices \
+🔐 Secure Authentication: Powered by Clerk. \
+☁️ Cloud Storage: Your data is safely stored on AWS DynamoDB. \
+🤖 AI-Powered: Generate portfolio content using Gemini AI. \
+🔗 Custom URLs: Share your portfolio with a personalized link. \
+🎯 SEO Optimized: Built for search engine visibility. 
 
-First, run the development server:
+## ⚙️ Tech stack
+- Next.js frontend framework 
+- Vercel for hosting and deployment 
+- Clerk for authentication 
+- Tailwind CSS for styling utilities 
+- AWS for cloud infrastructure 
+- Google for Gemini AI 
 
+## 🔄 How It Works
+- **Sign Up**: Register or log in using Clerk authentication. 
+- **Upload Resume**: Upload your resume; it will be securely stored in AWS S3.  
+- **Content Generation**: Gemini AI will parse your PDF and extract structured content in JSON format. 
+- **Customize, Preview & Publish**: Edit content in real time, preview your portfolio, and publish it instantly.
+
+
+## 🎯 Live Demo
+Check out the live application: [craftfolio.space](https://www.craftfolio.space/)
+
+## 🚀 Run Locally
+**Prerequisites** 
+- Node.js 18+ 
+- npm, yarn, pnpm, or bun 
+- AWS account (for DynamoDB and S3 bucket) 
+- Clerk account (for authentication) 
+- Google Cloud account (for Gemini AI)
+
+**Clone repo**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/thanoschild/craftfolio.git
+cd craftfolio
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Install dependencies**
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Set up your environment variables** 
+```txt
+Use the example.env file as a reference to define your environment variables.
+```

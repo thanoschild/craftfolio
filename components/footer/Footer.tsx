@@ -6,6 +6,7 @@ import Button from "../ui/Button";
 import Link from "next/link";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { FiMoon, FiSun } from "react-icons/fi";
+import { RiGeminiLine } from "react-icons/ri";
 
 export default function Footer() {
   const { theme, setTheme } = useTheme();
@@ -34,9 +35,12 @@ export default function Footer() {
                 href="https://ai.google/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-light-text dark:text-dark-text hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className="font-medium inline-flex items-center gap-1 align-middle text-light-text dark:text-dark-text hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
-                Gemini
+                <RiGeminiLine className="w-4 h-4 text-blue-600 inline-block" />
+                <span className="inline-block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Gemini
+                </span>
               </Link>
             </p>
           </div>
@@ -51,7 +55,7 @@ export default function Footer() {
           {/* Right side - Social Links & Theme Toggle */}
           <div className="flex items-center gap-3">
             <Link
-              href="https://github.com/thanoschild"
+              href="https://github.com/thanoschild/craftfolio"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
