@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+// import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import Loader from '../ui/Loader';
 
 type Props = {
@@ -12,24 +12,24 @@ type Props = {
 };
 
 export default function Pagination({ 
-  currentPage, 
-  hasNextPage, 
-  onPageChange, 
+  // currentPage, 
+  // hasNextPage, 
+  // onPageChange, 
   totalItems,
-  itemsPerPage,
+  // itemsPerPage,
   loading = false 
 }: Props) {
-  const startItem = (currentPage - 1) * itemsPerPage + 1;
-  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+  // const startItem = (currentPage - 1) * itemsPerPage + 1;
+  // const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="text-sm text-light-text-sub dark:text-dark-text-sub">
-          Showing {startItem}-{endItem} of {totalItems} portfolios
+          Showing {totalItems} portfolios
         </div>
         
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1 || loading}
@@ -51,7 +51,7 @@ export default function Pagination({
           >
             <FiChevronRight className="w-4 h-4" />
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Loading indicator for pagination */}
