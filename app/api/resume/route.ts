@@ -13,6 +13,8 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData();
   const file = formData.get("file") as File;
+  const fileName = formData.get("fileName") as string;
+  console.log("File received:", fileName);
   if (!file) return new NextResponse("No file uploaded", { status: 400 });
 
   const fileKey = `resumes/${userId}.pdf`;
@@ -22,6 +24,9 @@ export async function POST(req: NextRequest) {
     Key: fileKey,
     Body: Buffer.from(await file.arrayBuffer()),
     ContentType: file.type,
+    Metadata: {
+      originalfilename: fileName,
+    },
   });
 
   await s3.send(command);
@@ -46,8 +51,8 @@ export async function GET(req: NextRequest) {
       Key: fileKey,
     });
 
-    const { Body } = await s3.send(command);
-    const stream = Body as Readable;
+    const response = await s3.send(command);
+    const stream = response.Body as Readable;
     const chunks: Uint8Array[] = [];
 
     for await (const chunk of stream) {
@@ -57,6 +62,8 @@ export async function GET(req: NextRequest) {
     const pdfBuffer = Buffer.concat(chunks);
     const data = await parsePdf(pdfBuffer);
 
+    const originalFileName = response.Metadata?.originalfilename || "resume_temp.pdf";
+
     if (!data || (typeof data === "string" && data.trim() === "")) {
       return NextResponse.json(
         { error: "Could not parse resume PDF" },
@@ -65,7 +72,7 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { text: data },
+      { text: data, fileName: originalFileName },
       {
         status: 200,
         headers: {
@@ -75,9 +82,6 @@ export async function GET(req: NextRequest) {
     );
   } catch (err) {
     console.error("Error fetching resume:", err);
-    return NextResponse.json(
-      { error: "Resume not found" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "Resume not found" }, { status: 404 });
   }
 }

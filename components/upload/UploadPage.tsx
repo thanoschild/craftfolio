@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PiMagicWand } from "react-icons/pi";
 import Button from "../ui/Button";
-import { RiImageAddLine } from "react-icons/ri";
+import { RiFileCheckLine } from "react-icons/ri";
 import { RxCrossCircled } from "react-icons/rx";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import Loader from "../ui/Loader";
@@ -15,6 +15,7 @@ type UploadState = {
   error: string;
   loader: boolean;
   uploaded: boolean;
+  isExistingResume: boolean;
 };
 
 export default function UploadPage() {
@@ -24,9 +25,11 @@ export default function UploadPage() {
     error: "",
     loader: false,
     uploaded: false,
+    isExistingResume: false
   });
 
   const router = useRouter();
+  const [initialLoading, setInitialLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +43,7 @@ export default function UploadPage() {
         error: "File size exceeds 10MB limit.",
         loader: false,
         uploaded: false,
+        isExistingResume: false,
       });
       return;
     }
@@ -51,6 +55,7 @@ export default function UploadPage() {
         error: "Only PDF files are allowed.",
         loader: false,
         uploaded: false,
+        isExistingResume: false,
       });
       return;
     }
@@ -62,6 +67,7 @@ export default function UploadPage() {
       error: "",
       loader: true,
       uploaded: false,
+      isExistingResume: false
     }));
 
     await fetch("/api/portfolio", {
@@ -70,6 +76,8 @@ export default function UploadPage() {
 
     const formData = new FormData();
     formData.append("file", file);
+    console.log("file-name: ", file.name)
+    formData.append("fileName", file.name)
 
     const res = await fetch("/api/resume", {
       method: "POST",
@@ -95,9 +103,55 @@ export default function UploadPage() {
       error: "",
       loader: false,
       uploaded: false,
+      isExistingResume: false
     });
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
+
+  useEffect(() => {
+
+    const checkResume = async () => {
+      try {
+        const response = await fetch("/api/resume", {
+          method: "GET",
+        });
+        if(response.ok) {
+          const { fileName } = await response.json();
+
+          setFileState({
+            fileName: fileName,
+            fileData: null,
+            error: "",
+            loader: false,
+            uploaded: true,
+            isExistingResume: true,
+          });
+        }
+      } catch (error) {
+        console.error("Error checking resume status:", error);
+        setFileState({
+          fileName: "",
+          fileData: null,
+          error: "Failed to check resume status.",
+          loader: false,
+          uploaded: false,
+          isExistingResume: false
+        });
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+
+    checkResume();
+  }, []);
+
+    if (initialLoading) {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <Loader size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 md:gap-8 px-4 sm:px-6 lg:px-8">
@@ -144,7 +198,7 @@ export default function UploadPage() {
           {/* File Display */}
           {fileState.fileName && (
             <div className="mt-3 sm:mt-4 flex items-center gap-2 p-2 bg-light-bg dark:bg-dark-bg rounded-md border border-light-border-sub dark:border-dark-border-sub max-w-full">
-              <RiImageAddLine className="text-light-text-sub dark:text-dark-text-sub flex-shrink-0" />
+              <RiFileCheckLine className="text-light-text-sub dark:text-dark-text-sub flex-shrink-0" />
               <span className="truncate max-w-[120px] sm:max-w-[180px] text-xs sm:text-sm text-light-text dark:text-dark-text font-medium">
                 {fileState.fileName}
               </span>
@@ -193,12 +247,12 @@ export default function UploadPage() {
 
         {/* Success */}
         {fileState.uploaded && !fileState.loader && (
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                <p className="text-sm sm:text-base text-green-600 dark:text-green-400 text-center">
-                  ✓ Resume uploaded successfully.
-                </p>
-              </div>
-            )}
+          <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+            <p className="text-sm sm:text-base text-green-600 dark:text-green-400 text-center">
+              {fileState.isExistingResume ? "✓ Already have Resume. Ready to generate your portfolio." : "✓ Resume uploaded successfully." }
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Generate Button */}
