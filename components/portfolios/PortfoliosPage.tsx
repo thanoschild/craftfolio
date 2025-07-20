@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { LuUsers } from 'react-icons/lu';
-import PortfolioTable from './PortfolioTable';
-import Loader from '../ui/Loader';
-import ErrorMessage from './ErrorMessage';
-import EmptyState from './EmptyState';
-import Pagination from './Pagination';
-import PortfolioList from './PortfolioList';
+import React, { useEffect, useRef } from "react";
+import { LuUsers } from "react-icons/lu";
+import PortfolioTable from "./PortfolioTable";
+import Loader from "../ui/Loader";
+import ErrorMessage from "./ErrorMessage";
+import EmptyState from "./EmptyState";
+import Pagination from "./Pagination";
+import PortfolioList from "./PortfolioList";
+import { usePagination } from "@/contexts/PageContext";
 
 type Portfolio = {
   id: string;
@@ -15,77 +16,33 @@ type Portfolio = {
   timestamp: number;
 };
 
-type ApiResponse = {
-  items: Portfolio[];
-  nextStartKey: string | null;
-  currentPage: number;
-  hasNextPage: boolean;
-  totalItems: number;
-};
-
 export default function PortfoliosPage() {
-  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasNextPage, setHasNextPage] = useState(false);
-  const [startKeys, setStartKeys] = useState<{ [page: number]: string }>({});
-  const [totalItems, setTotalItems] = useState(0);
+  const {
+    portfolios,
+    loading,
+    error,
+    currentPage,
+    hasNextPage,
+    totalItems,
+    fetchPortfolios,
+    setCurrentPage,
+  } = usePagination();
 
   const ITEMS_PER_PAGE = 10;
-
-  const fetchPortfolios = useCallback(async (page: number = 1) => {
-  try {
-    setLoading(true);
-    setError(null);
-
-    const params = new URLSearchParams({
-      page: page.toString(),
-      limit: ITEMS_PER_PAGE.toString(),
-    });
-
-    if (page > 1 && startKeys[page]) {
-      params.append("startKey", startKeys[page]);
-    }
-
-    const response = await fetch(`/api/portfolio/public/live?${params}`);
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || "Failed to fetch portfolios");
-    }
-
-    const data: ApiResponse = await response.json();
-
-    setPortfolios(data.items);
-    setHasNextPage(data.hasNextPage);
-    setTotalItems(data.totalItems);
-
-    if (data.nextStartKey) {
-      setStartKeys((prev) => ({
-        ...prev,
-        [page + 1]: data.nextStartKey!,
-      }));
-    }
-  } catch (err) {
-    console.error("Error fetching portfolios:", err);
-    setError(
-      err instanceof Error
-        ? err.message
-        : "Failed to load portfolios. Please try again."
-    );
-  } finally {
-    setLoading(false);
-  }
-}, [ITEMS_PER_PAGE, startKeys]); 
+  const hasFetchedRef = useRef(false);
 
   useEffect(() => {
-    fetchPortfolios(currentPage);
-  }, [currentPage, fetchPortfolios]);
+    if (!hasFetchedRef.current) {
+      fetchPortfolios(currentPage);
+      hasFetchedRef.current = true;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); 
 
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && (newPage <= currentPage || hasNextPage)) {
+    if (newPage !== currentPage) {
       setCurrentPage(newPage);
+      fetchPortfolios(newPage); 
     }
   };
 
@@ -95,7 +52,9 @@ export default function PortfoliosPage() {
 
   if (loading && portfolios.length === 0) {
     return (
-       <Loader message="Loading portfolios." size="lg" />
+      <div className="flex flex-1 flex-col items-center justify-center bg-light-bg dark:bg-dark-bg min-h-[60vh]">
+        <Loader message="Loading portfolios." size="lg" />
+      </div>
     );
   }
 

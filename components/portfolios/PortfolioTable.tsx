@@ -108,6 +108,8 @@ function PortfolioTableRow({
         <div className="flex items-center justify-center gap-2">
           <Link
             href={`/${portfolio.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-1 bg-light-text dark:bg-dark-text text-light-bg dark:text-dark-bg rounded-lg hover:bg-light-text-sub dark:hover:bg-dark-text-sub transition-colors font-medium text-sm"
           >
             View

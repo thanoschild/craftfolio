@@ -73,12 +73,12 @@ export default function Preview() {
               Contact
             </Link>
             <Link
-              href="/resume.pdf"
+              href="https://www.craftfolio.space/sumeet-portfolio"
               target="_blank"
               rel="noopener noreferrer"
               className="px-3 py-1.5 border border-light-border-sub dark:border-dark-border-sub text-light-text dark:text-dark-text text-xs font-medium rounded-lg hover:border-light-text dark:hover:border-dark-text transition-colors"
             >
-              Resume
+              Portfolio
             </Link>
           </div>
         </div>

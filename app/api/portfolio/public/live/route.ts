@@ -2,15 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { docClient } from "@/lib/dynamo"; 
 
-// const PAGE_LIMIT = 10;
+const PAGE_LIMIT = 10;
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const page = parseInt(searchParams.get("page") || "1", 10);
-  
-  // TODO: Change to PAGE_LIMIT later
-  // const limit = parseInt(searchParams.get("limit") || `${PAGE_LIMIT}`, 100);
-  const limit = 1000;  
+  const limit = parseInt(searchParams.get("limit") || `${PAGE_LIMIT}`, 10);
 
   let lastEvaluatedKey: Record<string, unknown> | undefined = undefined;
 

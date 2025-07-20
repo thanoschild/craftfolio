@@ -3,8 +3,8 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ToastProvider } from "@/components/providers/ToastProvider";
 import MainLayout from "@/components/layout/MainLayout";
 import { metadata } from "@/lib/metadata";
+import { PaginationProvider } from "@/contexts/PageContext";
 import "./globals.css";
-
 
 export { metadata };
 
@@ -26,9 +26,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="min-h-screen">
-              <MainLayout>{children}</MainLayout>
-            </div>
+            <PaginationProvider>
+              <div className="min-h-screen">
+                <MainLayout>{children}</MainLayout>
+              </div>
+            </PaginationProvider>
             <ToastProvider />
           </ThemeProvider>
         </body>
