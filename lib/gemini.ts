@@ -6,7 +6,7 @@ export async function generateJson(text: string) {
   const prompt = `
 Given the following resume text, extract the information into the JSON format provided below. Return all values in **paragraph form** (no bullet points). 
 
-If the "about" section is missing, generate a 2–3 line professional summary based on the resume content. Ensure all fields are included, even if some values are blank. Use contextual understanding to fill in details where possible (e.g., current role, open to work).
+If the "about" section is missing, generate a 2–3 line first-person "About Me" section suitable for a portfolio website. Ensure all fields are included, even if some values are blank. Use contextual understanding to fill in details where possible (e.g., current role, open to work).
 
 Format:
 
