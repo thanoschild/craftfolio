@@ -76,7 +76,6 @@ export default function UploadPage() {
 
     const formData = new FormData();
     formData.append("file", file);
-    console.log("file-name: ", file.name)
     formData.append("fileName", file.name)
 
     const res = await fetch("/api/resume", {

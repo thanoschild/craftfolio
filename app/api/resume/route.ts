@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
   const fileName = formData.get("fileName") as string;
-  console.log("File received:", fileName);
   if (!file) return new NextResponse("No file uploaded", { status: 400 });
 
   const fileKey = `resumes/${userId}.pdf`;
@@ -62,7 +61,7 @@ export async function GET(req: NextRequest) {
     const pdfBuffer = Buffer.concat(chunks);
     const data = await parsePdf(pdfBuffer);
 
-    const originalFileName = response.Metadata?.originalfilename || "resume_temp.pdf";
+    const originalFileName = response.Metadata?.originalfilename || "resume.pdf";
 
     if (!data || (typeof data === "string" && data.trim() === "")) {
       return NextResponse.json(

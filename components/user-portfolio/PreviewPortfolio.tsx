@@ -28,8 +28,6 @@ export default function PreviewPortfolio({ formData }: PreviewPortfolioProps) {
     );
   }
 
-  console.log("data: ", formData);
-
   return (
     <div className="min-h-screen bg-light-bg dark:bg-dark-bg transition-colors duration-300 mb-8">
           <div className="max-w-5xl mx-auto">
