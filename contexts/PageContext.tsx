@@ -116,7 +116,7 @@ export function PaginationProvider({ children }: { children: ReactNode }) {
       }
 
       const data: ApiResponse = await response.json();
-
+      
       setPortfolios(data.items);
       setHasNextPage(data.hasNextPage);
       setCurrentPageState(page);

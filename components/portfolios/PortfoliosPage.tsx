@@ -85,7 +85,7 @@ export default function PortfoliosPage() {
         </div>
 
         {/* Content */}
-        {portfolios.length === 0 && !loading ? (
+        {totalItems === 0 && !loading ? (
           <EmptyState
             icon="user"
             title="No portfolios found"
