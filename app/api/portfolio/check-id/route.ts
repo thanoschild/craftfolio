@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { docClient } from "@/lib/dynamo";
 import { isRestrictedKeyword } from "@/lib/restrictedKeywords";
+import { getAuth } from "@clerk/nextjs/server";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
+  const { userId } = getAuth(req);
   const body = await req.json();
   const { id } = body;
 
@@ -16,6 +19,14 @@ export async function POST(req: NextRequest) {
       available: false, 
       reason: "This ID contains restricted keywords and cannot be used" 
     });
+  }
+
+  // Rate limit: 10 req per minute
+  if (!rateLimit(`check-id:${userId}`, 10, 60 * 1000)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
   }
 
   const tableName = process.env.AWS_DYNAMODB_TABLE!;

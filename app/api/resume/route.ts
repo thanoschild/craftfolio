@@ -4,12 +4,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 import { parsePdf } from "@/lib/parsePdf";
 import { s3 } from "@/lib/s3";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
   "use server";
 
   const { userId } = getAuth(req);
-  if (!userId) return new NextResponse("Unauthorized", { status: 401 });
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Unauthorized" }, 
+      { status: 401 }
+    );
+  }
+
+  if (!rateLimit(`resume-upload:${userId}`, 5, 60 * 60 * 1000)) {
+    return NextResponse.json(
+      { error: "Upload limit exceeded. You can upload 5 files per hour." },
+      { status: 429 }
+    );
+  }
 
   const formData = await req.formData();
   const file = formData.get("file") as File;
@@ -41,6 +54,14 @@ export async function GET(req: NextRequest) {
 
   const { userId } = getAuth(req);
   if (!userId) return new NextResponse("Unauthorized", { status: 401 });
+
+  // Rate limit: 20 requests per minute per user for GET requests
+  if (!rateLimit(`resume-get:${userId}`, 20, 60 * 1000)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
+  }
 
   const fileKey = `resumes/${userId}.pdf`;
 

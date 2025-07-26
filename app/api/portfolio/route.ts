@@ -2,10 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { PutCommand, GetCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 import { docClient } from "@/lib/dynamo";
 import { getAuth } from "@clerk/nextjs/server";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
   const { userId } = getAuth(req);
   const body = await req.json();
+
+  // Rate limit: 10 req per minute
+  if (!rateLimit(`portfolio-post:${userId}`, 10, 60 * 1000)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
+  }
 
   const { id, live } = body; 
 
@@ -36,6 +45,15 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const { userId } = getAuth(req);
 
+  // Rate limit: 20 req per minute
+  if (!rateLimit(`portfolio-get:${userId}`, 20, 60 * 1000)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
+  }
+
+
   const params = {
     TableName: process.env.AWS_DYNAMODB_TABLE!,
     Key: { userId },
@@ -55,6 +73,14 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { userId } = getAuth(req);
+
+  // Rate limit: 10 deletions per minute
+  if (!rateLimit(`portfolio-del:${userId}`, 10, 60 * 1000)) {
+    return NextResponse.json(
+      { error: "Upload limit exceeded. You can make 10 deletions per minute" },
+      { status: 429 }
+    );
+  }
 
   const params = {
     TableName: process.env.AWS_DYNAMODB_TABLE!,

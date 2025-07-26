@@ -25,7 +25,7 @@ export default function UploadPage() {
     error: "",
     loader: false,
     uploaded: false,
-    isExistingResume: false
+    isExistingResume: false,
   });
 
   const router = useRouter();
@@ -67,7 +67,7 @@ export default function UploadPage() {
       error: "",
       loader: true,
       uploaded: false,
-      isExistingResume: false
+      isExistingResume: false,
     }));
 
     await fetch("/api/portfolio", {
@@ -76,18 +76,29 @@ export default function UploadPage() {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("fileName", file.name)
+    formData.append("fileName", file.name);
 
     const res = await fetch("/api/resume", {
       method: "POST",
       body: formData,
     });
 
+    let errorMessage = "";
+    if (!res.ok) {
+      try {
+        const errorData = await res.json();
+        errorMessage =
+          errorData.error || "Failed to upload file. Please try again.";
+      } catch {
+        errorMessage = "Failed to upload file. Please try again.";
+      }
+    }
+
     setFileState((prev) => ({
       ...prev,
       loader: false,
       uploaded: res.ok,
-      error: res.ok ? "" : "Failed to upload file. Please try again.",
+      error: errorMessage,
     }));
   };
 
@@ -102,19 +113,18 @@ export default function UploadPage() {
       error: "",
       loader: false,
       uploaded: false,
-      isExistingResume: false
+      isExistingResume: false,
     });
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   useEffect(() => {
-
     const checkResume = async () => {
       try {
         const response = await fetch("/api/resume", {
           method: "GET",
         });
-        if(response.ok) {
+        if (response.ok) {
           const { fileName } = await response.json();
 
           setFileState({
@@ -134,7 +144,7 @@ export default function UploadPage() {
           error: "Failed to check resume status.",
           loader: false,
           uploaded: false,
-          isExistingResume: false
+          isExistingResume: false,
         });
       } finally {
         setInitialLoading(false);
@@ -144,7 +154,7 @@ export default function UploadPage() {
     checkResume();
   }, []);
 
-    if (initialLoading) {
+  if (initialLoading) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center">
         <Loader size="lg" />
@@ -248,7 +258,9 @@ export default function UploadPage() {
         {fileState.uploaded && !fileState.loader && (
           <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
             <p className="text-sm sm:text-base text-green-600 dark:text-green-400 text-center">
-              {fileState.isExistingResume ? "✓ Already have Resume. Ready to generate your portfolio." : "✓ Resume uploaded successfully." }
+              {fileState.isExistingResume
+                ? "✓ Already have Resume. Ready to generate your portfolio."
+                : "✓ Resume uploaded successfully."}
             </p>
           </div>
         )}
